@@ -1,0 +1,94 @@
+/* src/pages/Home/Home.css */
+
+/* General page layout */
+.home-page {
+  font-family: 'Arial', sans-serif;
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 80px;
+  background-color: #e8f5e9;
+  gap: 50px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+.hero-buttons button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  margin-right: 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero-buttons button:hover {
+  background-color: #388e3c;
+}
+
+.hero-image img {
+  width: 500px;
+  border-radius: 15px;
+}
+
+/* Features Section */
+.features-section {
+  padding: 60px 80px;
+  text-align: center;
+  background-color: #f1f8e9;
+}
+
+.features-section h2 {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 50px;
+}
+
+.features-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.feature-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  width: 250px;
+  transition: 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.feature-card h3 {
+  color: #4caf50;
+  margin-bottom: 15px;
+}
+
+.feature-card p {
+  color: #555;
+  font-size: 0.95rem;
+}

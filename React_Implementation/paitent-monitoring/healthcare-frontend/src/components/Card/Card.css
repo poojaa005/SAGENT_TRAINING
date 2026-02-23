@@ -1,0 +1,24 @@
+.generic-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  width: 250px;
+  margin: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+
+.generic-card:hover {
+  transform: translateY(-5px);
+}
+
+.generic-card h4 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.generic-card p {
+  color: #555;
+  font-size: 0.9rem;
+}

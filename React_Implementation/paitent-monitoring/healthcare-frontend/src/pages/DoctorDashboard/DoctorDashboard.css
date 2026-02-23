@@ -1,0 +1,75 @@
+/* src/pages/DoctorDashboard/DoctorDashboard.css */
+
+.doctor-dashboard {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  padding: 40px 80px;
+}
+
+/* Welcome Section */
+.welcome-section h2 {
+  color: #2e7d32;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.welcome-section p {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+}
+
+/* Section Headings */
+.appointments-section h3,
+.patients-section h3 {
+  color: #2e7d32;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* Cards Layout */
+.appointments-cards,
+.patients-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Placeholder message */
+.appointments-section p,
+.patients-section p {
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 20px 30px;
+  }
+  .appointments-cards,
+  .patients-cards {
+    flex-direction: column;
+  }
+}
+
+.dashboard-layout {
+  display: flex;
+}
+
+.dashboard-content {
+  margin-left: 220px; /* sidebar width */
+  width: 100%;
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 60px;
+    padding: 20px;
+  }
+}
