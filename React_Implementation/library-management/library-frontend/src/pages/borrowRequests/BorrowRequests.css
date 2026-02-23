@@ -1,0 +1,19 @@
+@import '../../styles/shared.css';
+@import '../../components/StatusBadge/StatusBadge.css';
+@import '../../components/BookCard/BookCard.css';
+
+.borrow-page {}
+
+.borrow-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+
+.borrow-book-title {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
