@@ -1,0 +1,14 @@
+@import '../../styles/shared.css';
+
+.fines-page {}
+
+.fine-amount {
+  font-family: var(--font-display);
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
+.fine-days {
+  color: var(--accent-amber);
+  font-size: 13px;
+}
