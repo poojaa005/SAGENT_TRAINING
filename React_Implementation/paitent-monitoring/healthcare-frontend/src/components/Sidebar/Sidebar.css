@@ -36,7 +36,9 @@
   color: white;
   text-decoration: none;
   padding: 10px 20px;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   border-radius: 6px;
   transition: 0.3s;
 }
@@ -48,6 +50,12 @@
 .sidebar-links li.active a {
   background-color: #4caf50;
   font-weight: bold;
+}
+
+.sidebar-link-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 /* Responsive: hide sidebar on small screens */
@@ -62,7 +70,14 @@
   }
 
   .sidebar-links li a {
+    justify-content: center;
     padding: 10px;
     font-size: 0;
+    gap: 0;
+  }
+
+  .sidebar-link-icon {
+    width: 18px;
+    height: 18px;
   }
 }

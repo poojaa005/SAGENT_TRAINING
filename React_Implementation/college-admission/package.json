@@ -1,9 +1,0 @@
-﻿{
-  "name": "college-admission-root",
-  "private": true,
-  "scripts": {
-    "start": "npm --prefix college-admission-frontend start",
-    "build": "npm --prefix college-admission-frontend run build",
-    "test": "npm --prefix college-admission-frontend test"
-  }
-}

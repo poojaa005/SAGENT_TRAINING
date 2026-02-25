@@ -11,6 +11,7 @@ import Home from "./pages/Home/Home";
 import Appointments from "./pages/Appointments/Appointments";
 import HealthRecords from "./pages/HealthRecords/HealthRecords";
 import Profile from "./pages/Profile/Profile";
+import Ai from "./pages/ai/Ai";
 
 function App() {
   return (
@@ -60,6 +61,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ai-assistant"
+            element={
+              <ProtectedRoute>
+                <Ai />
               </ProtectedRoute>
             }
           />

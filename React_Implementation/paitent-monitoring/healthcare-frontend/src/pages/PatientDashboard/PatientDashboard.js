@@ -8,6 +8,30 @@ import { getAppointments, getPatientRecords } from "../../services/patientServic
 import { AuthContext } from "../../context/AuthContext";
 import "./PatientDashboard.css";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
+
+const getAppointmentDateTime = (appointment) => {
+  const dateValue = appointment?.appointmentDate || appointment?.date;
+  const timeValue = appointment?.appointmentTime || appointment?.time || "00:00:00";
+  if (!dateValue) return null;
+
+  const parsed = new Date(`${dateValue}T${String(timeValue).slice(0, 8)}`);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
+const isUpcomingAppointment = (appointment) => {
+  const status = String(appointment?.appointmentStatus || appointment?.status || "").toLowerCase();
+  const when = getAppointmentDateTime(appointment);
+  if (!when) return false;
+
+  const activeStatus =
+    status === "booked" ||
+    status === "scheduled" ||
+    status === "pending" ||
+    status === "confirmed";
+
+  return activeStatus && when.getTime() >= Date.now();
+};
+
 const PatientDashboard = () => {
   const [appointments, setAppointments] = useState([]);
   const [records, setRecords] = useState([]);
@@ -19,6 +43,10 @@ const PatientDashboard = () => {
     getAppointments(patientId).then(setAppointments).catch(err => console.error(err));
     getPatientRecords(patientId).then(setRecords).catch(err => console.error(err));
   }, [user]);
+
+  const upcomingAppointments = Array.isArray(appointments)
+    ? appointments.filter(isUpcomingAppointment)
+    : [];
 
   return (
     <div className="dashboard-layout">
@@ -37,8 +65,8 @@ const PatientDashboard = () => {
           <section className="appointments-section">
             <h3>Upcoming Appointments</h3>
             <div className="appointments-cards">
-              {appointments.length > 0 ? (
-                appointments.map((appt) => (
+              {upcomingAppointments.length > 0 ? (
+                upcomingAppointments.map((appt) => (
                   <AppointmentCard key={appt.appointmentId} appointment={appt} />
                 ))
               ) : (
