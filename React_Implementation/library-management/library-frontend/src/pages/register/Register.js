@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { memberService } from '../../services/memberService';
+import { authService } from '../../services/authService';
 import { useAuth } from '../../context/AuthContext';
 import './Register.css';
 
@@ -20,12 +21,13 @@ function Register() {
     }
     setLoading(true);
     try {
-      const member = await memberService.create({
+      await memberService.create({
         name: form.name,
         email: form.email,
         password: form.password,
       });
-      login(member);
+      const auth = await authService.login(form.email, form.password);
+      login(auth, (auth?.role || 'member').toLowerCase(), auth?.token);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');

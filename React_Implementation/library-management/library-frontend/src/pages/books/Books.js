@@ -14,10 +14,17 @@ function Books() {
   const [loading, setLoading] = useState(true);
   const [borrowModal, setBorrowModal] = useState({ open: false, book: null });
   const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
+    setError('');
     bookService.getAll()
       .then(setBooks)
+      .catch((err) => {
+        setBooks([]);
+        const status = err?.response?.status;
+        setError(status === 403 ? 'You are not allowed to view books.' : 'Failed to load books.');
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -35,13 +42,14 @@ function Books() {
 
   const handleBorrow = async (book) => {
     if (!user?.memberId) return;
+    setError('');
     try {
       await borrowService.createRequest(user.memberId, book.book_id);
       setMessage('Borrow request submitted successfully!');
       setBorrowModal({ open: false, book: null });
       setTimeout(() => setMessage(''), 3000);
     } catch {
-      setMessage('Failed to submit request. Please try again.');
+      setError('Failed to submit request. Please try again.');
     }
   };
 
@@ -53,6 +61,7 @@ function Books() {
       </div>
 
       {message && <div className="alert alert--success">{message}</div>}
+      {error && <div className="alert alert--error">{error}</div>}
 
       <div className="books-filters">
         <div className="search-bar">

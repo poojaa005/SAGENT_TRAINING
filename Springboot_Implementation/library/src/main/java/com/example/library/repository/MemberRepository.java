@@ -17,5 +17,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // Search by email containing
     List<Member> findByEmailContaining(String email);
 
+    // For JWT login
+    Optional<Member> findOneByEmail(String email);
 }
-

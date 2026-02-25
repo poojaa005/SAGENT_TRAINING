@@ -13,10 +13,16 @@ function Fines() {
   const [error, setError] = useState('');
 
   const load = async () => {
+    setError('');
     try {
       const [f, r] = await Promise.all([fineService.getAll(), borrowService.getAll()]);
       setFines(f);
       setRequests(r.filter(req => req.status === 'APPROVED'));
+    } catch (err) {
+      setFines([]);
+      setRequests([]);
+      const status = err?.response?.status;
+      setError(status === 403 ? 'You are not allowed to view fines.' : 'Failed to load fines.');
     } finally {
       setLoading(false);
     }
@@ -38,8 +44,13 @@ function Fines() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this fine record?')) return;
-    await fineService.deleteFine(id);
-    load();
+    setError('');
+    try {
+      await fineService.deleteFine(id);
+      load();
+    } catch {
+      setError('Failed to delete fine.');
+    }
   };
 
   const totalAmount = fines.reduce((sum, f) => sum + (f.amount || 0), 0);
@@ -67,6 +78,8 @@ function Fines() {
           </div>
         </div>
       </div>
+
+      {error && <div className="alert alert--error">{error}</div>}
 
       <div className="page-actions">
         <button className="btn btn--primary btn--md" onClick={() => { setForm({ requestId: '', returnDate: '' }); setModal({ open: true }); }}>

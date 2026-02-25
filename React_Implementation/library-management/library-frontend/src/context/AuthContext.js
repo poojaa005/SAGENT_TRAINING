@@ -1,29 +1,40 @@
 import React, { createContext, useContext, useState } from 'react';
+import { getAuthToken, setAuthToken } from '../services/http';
 
 const AuthContext = createContext(null);
 
 function normalizeUser(userData, roleOverride) {
   const role = (roleOverride || userData?.role || 'member').toLowerCase();
-  return { ...userData, role };
+  const normalized = { ...userData, role };
+  if (role === 'member' && !normalized.memberId && normalized.id) {
+    normalized.memberId = normalized.id;
+  }
+  if (role === 'librarian' && !normalized.librarianId && normalized.id) {
+    normalized.librarianId = normalized.id;
+  }
+  return normalized;
 }
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
+      const token = getAuthToken();
       const saved = localStorage.getItem('lms_user');
-      return saved ? normalizeUser(JSON.parse(saved)) : null;
+      return saved && token ? normalizeUser(JSON.parse(saved)) : null;
     } catch {
       return null;
     }
   });
 
-  const login = (userData, role) => {
+  const login = (userData, role, token) => {
     const normalizedUser = normalizeUser(userData, role);
+    setAuthToken(token);
     localStorage.setItem('lms_user', JSON.stringify(normalizedUser));
     setUser(normalizedUser);
   };
 
   const logout = () => {
+    setAuthToken(null);
     localStorage.removeItem('lms_user');
     setUser(null);
   };

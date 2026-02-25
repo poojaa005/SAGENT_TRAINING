@@ -19,6 +19,7 @@ function BorrowRequests() {
   const [filter, setFilter] = useState('ALL');
 
   const load = async () => {
+    setError('');
     try {
       const [reqs, bks, mems] = await Promise.all([
         borrowService.getAll(),
@@ -28,6 +29,12 @@ function BorrowRequests() {
       setRequests(reqs);
       setBooks(bks);
       setMembers(mems);
+    } catch (err) {
+      setRequests([]);
+      setBooks([]);
+      setMembers([]);
+      const status = err?.response?.status;
+      setError(status === 403 ? 'You are not allowed to view borrow requests.' : 'Failed to load borrow requests.');
     } finally {
       setLoading(false);
     }
@@ -50,14 +57,24 @@ function BorrowRequests() {
   };
 
   const handleStatusUpdate = async (id, status) => {
-    await borrowService.updateStatus(id, status);
-    load();
+    setError('');
+    try {
+      await borrowService.updateStatus(id, status);
+      load();
+    } catch {
+      setError('Failed to update request status.');
+    }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Cancel this request?')) return;
-    await borrowService.deleteRequest(id);
-    load();
+    setError('');
+    try {
+      await borrowService.deleteRequest(id);
+      load();
+    } catch {
+      setError('Failed to cancel request.');
+    }
   };
 
   const STATUS_FILTERS = ['ALL', 'PENDING', 'APPROVED', 'REJECTED', 'RETURNED'];
@@ -68,6 +85,8 @@ function BorrowRequests() {
         <h1 className="page-title">Borrow Requests</h1>
         <p className="page-subtitle">Manage book borrowing and return operations</p>
       </div>
+
+      {error && <div className="alert alert--error">{error}</div>}
 
       <div className="page-actions">
         <div className="borrow-filters">

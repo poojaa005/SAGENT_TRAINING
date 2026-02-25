@@ -14,9 +14,14 @@ function Members() {
   const [error, setError] = useState('');
 
   const load = async () => {
+    setError('');
     try {
       const data = await memberService.getAll();
       setMembers(data);
+    } catch (err) {
+      setMembers([]);
+      const status = err?.response?.status;
+      setError(status === 403 ? 'You are not allowed to view members.' : 'Failed to load members.');
     } finally {
       setLoading(false);
     }
@@ -59,8 +64,13 @@ function Members() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this member?')) return;
-    await memberService.delete(id);
-    load();
+    setError('');
+    try {
+      await memberService.delete(id);
+      load();
+    } catch {
+      setError('Failed to delete member.');
+    }
   };
 
   return (
@@ -69,6 +79,8 @@ function Members() {
         <h1 className="page-title">Members</h1>
         <p className="page-subtitle">Manage library members and registrations</p>
       </div>
+
+      {error && <div className="alert alert--error">{error}</div>}
 
       <div className="page-actions">
         <div className="search-bar">

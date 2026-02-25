@@ -23,9 +23,14 @@ function Notifications() {
 
   const load = async () => {
     setLoading(true);
+    setError('');
     try {
-      const mems = await memberService.getAll();
-      setMembers(mems);
+      if (isLibrarian) {
+        const mems = await memberService.getAll();
+        setMembers(mems);
+      } else {
+        setMembers([]);
+      }
 
       const targetMemberId = isLibrarian ? selectedMemberId : user?.memberId;
       if (!targetMemberId) {
@@ -35,6 +40,10 @@ function Notifications() {
 
       const notifs = await notificationService.getByMember(targetMemberId);
       setNotifications(notifs);
+    } catch (err) {
+      setNotifications([]);
+      const status = err?.response?.status;
+      setError(status === 403 ? 'You are not allowed to access notifications for this user.' : 'Failed to load notifications.');
     } finally {
       setLoading(false);
     }

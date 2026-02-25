@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { memberService } from '../../services/memberService';
-import { librarianService } from '../../services/librarianService';
+import { authService } from '../../services/authService';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
@@ -12,74 +11,27 @@ function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const normalizeEmail = (value) => (value || '').trim().toLowerCase();
-  const normalizePassword = (value) => (value || '').trim();
-  const getEmail = (account) =>
-    normalizeEmail(
-      account?.email ??
-      account?.emailId ??
-      account?.librarian_email ??
-      account?.librarianEmail ??
-      account?.mail ??
-      account?.userEmail ??
-      account?.username ??
-      account?.userName
-    );
-  const getPassword = (account) =>
-    account?.password ??
-    account?.librarian_password ??
-    account?.librarianPassword ??
-    account?.pwd ??
-    account?.passcode ??
-    account?.userPassword;
-
-  const findMatchingLibrarian = (list) => {
-    if (!Array.isArray(list)) return null;
-    return list.find((l) => {
-      const emailMatches = getEmail(l) === normalizeEmail(form.email);
-      const password = getPassword(l);
-      if (password === undefined || password === null) return emailMatches;
-      return emailMatches && String(password) === normalizePassword(form.password);
-    });
-  };
-
-  const authenticateMember = async () => {
-    const members = await memberService.searchByEmail(form.email);
-    return members.find(
-      m =>
-        normalizeEmail(m.email) === normalizeEmail(form.email) &&
-        normalizePassword(m.password) === normalizePassword(form.password)
-    );
-  };
-
-  const authenticateLibrarian = async () => {
-    const librarians = await librarianService.getAll();
-    return findMatchingLibrarian(librarians);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      const account = form.role === 'librarian'
-        ? await authenticateLibrarian()
-        : await authenticateMember();
+      const auth = await authService.login(form.email, form.password);
+      const backendRole = (auth?.role || '').toLowerCase();
 
-      if (account) {
-        login(account, form.role);
-        navigate('/');
-      } else {
-        setError(`Invalid ${form.role} email or password.`);
+      if (backendRole && backendRole !== form.role) {
+        setError(`This account is a ${backendRole}. Please choose ${backendRole} role.`);
+        return;
       }
+
+      login(auth, backendRole || form.role, auth?.token);
+      navigate('/');
     } catch (err) {
       const status = err?.response?.status;
       if (status === 401 || status === 403) {
         setError('Invalid credentials for selected role.');
-      } else if (status === 500 && form.role === 'librarian') {
-        setError('Backend error in /librarians API. Check librarian entity data or null values in server.');
       } else if (status === 404) {
-        setError('Librarian endpoint /librarians not found. Check backend route mapping.');
+        setError('Auth endpoint not found. Check backend /api/auth/login mapping.');
       } else {
         setError('Server error. Please try again.');
       }

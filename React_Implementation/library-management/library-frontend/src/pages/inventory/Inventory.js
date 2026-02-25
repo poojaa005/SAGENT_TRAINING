@@ -22,9 +22,14 @@ function Inventory() {
   const [message, setMessage] = useState('');
 
   const load = async () => {
+    setError('');
     try {
       const data = await bookService.getAll();
       setBooks(data);
+    } catch (err) {
+      setBooks([]);
+      const status = err?.response?.status;
+      setError(status === 403 ? 'You are not allowed to view inventory.' : 'Failed to load inventory.');
     } finally {
       setLoading(false);
     }
@@ -58,9 +63,14 @@ function Inventory() {
   };
 
   const markDamaged = async (book) => {
-    await bookService.update(book.book_id, { ...book, book_quantity: -1 });
-    showMsg('Book marked as damaged.');
-    load();
+    setError('');
+    try {
+      await bookService.update(book.book_id, { ...book, book_quantity: -1 });
+      showMsg('Book marked as damaged.');
+      load();
+    } catch {
+      setError('Failed to mark book as damaged.');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -83,9 +93,14 @@ function Inventory() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this book from the catalog?')) return;
-    await bookService.delete(id);
-    showMsg('Book deleted from catalog.');
-    load();
+    setError('');
+    try {
+      await bookService.delete(id);
+      showMsg('Book deleted from catalog.');
+      load();
+    } catch {
+      setError('Failed to delete book.');
+    }
   };
 
   const showMsg = (msg) => {
@@ -105,6 +120,7 @@ function Inventory() {
       </div>
 
       {message && <div className="alert alert--success">{message}</div>}
+      {error && <div className="alert alert--error">{error}</div>}
 
       <div className="stats-grid">
         <div className="stat-card">

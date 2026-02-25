@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/librarians';
+const BASE_URL = 'http://localhost:8080/api/librarians';
 
 export const librarianService = {
   getAll: () => axios.get(BASE_URL).then(r => r.data),

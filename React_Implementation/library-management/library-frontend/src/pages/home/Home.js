@@ -32,11 +32,11 @@ function Home() {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [books, members, requests, fines] = await Promise.all([
+        const [books, requests, fines, members] = await Promise.all([
           bookService.getAll(),
-          memberService.getAll(),
           borrowService.getAll(),
           fineService.getAll(),
+          isLibrarian ? memberService.getAll() : Promise.resolve([]),
         ]);
 
         const memberId = user?.memberId;
