@@ -1,0 +1,109 @@
+.status-page { background: var(--light-bg); padding-bottom: 60px; }
+.status-header {
+  background: var(--gradient);
+  padding: 60px 0 48px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.status-header h1 { font-size: 2.2rem; color: #fff; margin-bottom: 8px; }
+.status-header p { color: rgba(255,255,255,0.6); }
+
+.status-grid { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
+
+.status-sidebar {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  height: fit-content;
+}
+.status-sidebar h3 { font-size: 1rem; color: var(--primary); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+.app-sidebar-item {
+  padding: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+}
+.app-sidebar-item:hover { background: var(--light-bg); border-color: var(--border); }
+.app-sidebar-item.active { background: rgba(233,69,96,0.06); border-color: #e94560; }
+.asi-id { font-weight: 700; color: var(--primary); font-size: 0.88rem; margin-bottom: 4px; }
+.asi-course { color: var(--text-muted); font-size: 0.82rem; margin-bottom: 8px; }
+
+.status-detail { display: flex; flex-direction: column; gap: 20px; }
+
+.sd-header {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+.sd-header h2 { font-size: 1.4rem; color: var(--primary); margin-bottom: 4px; }
+.sd-course { color: var(--text-muted); font-size: 0.88rem; }
+
+.timeline-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+.timeline-card h4 { color: var(--primary); margin-bottom: 24px; font-size: 1rem; }
+.timeline { display: flex; align-items: center; }
+
+.timeline-step { display: flex; align-items: center; flex: 1; }
+.tl-circle {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.timeline-step.done .tl-circle { background: #10b981; color: #fff; }
+.timeline-step.current .tl-circle { background: #e94560; color: #fff; box-shadow: 0 0 0 4px rgba(233,69,96,0.2); animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 4px rgba(233,69,96,0.2); } 50% { box-shadow: 0 0 0 8px rgba(233,69,96,0.08); } }
+.tl-label { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 8px; position: absolute; transform: translateX(-50%); margin-left: 19px; top: 44px; white-space: nowrap; }
+.timeline-step { position: relative; padding-bottom: 30px; }
+.tl-line { flex: 1; height: 2px; background: var(--border); margin: 0 4px; }
+.timeline-step.done .tl-line { background: #10b981; }
+
+.review-info-card, .course-info-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+.review-info-card h4, .course-info-card h4 { color: var(--primary); margin-bottom: 16px; font-size: 1rem; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.ric-content { display: flex; flex-direction: column; gap: 10px; }
+.ric-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+.ric-row span { color: var(--text-muted); }
+.ric-row strong { color: var(--primary); }
+
+.action-box {
+  background: rgba(233,69,96,0.05);
+  border: 1px solid rgba(233,69,96,0.2);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.action-box p { color: var(--text-muted); font-size: 0.9rem; }
+
+@media (max-width: 768px) {
+  .status-grid { grid-template-columns: 1fr; }
+  .sd-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+}

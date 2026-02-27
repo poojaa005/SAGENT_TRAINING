@@ -8,24 +8,27 @@ public class Officer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "officer_id")
     private Long officerId;
 
+    @Column(name = "officer_name")
     private String officerName;
-    private String designation;
-    private String department;
-    private String email;
-    private String phoneNumber;
 
-    // Constructors
+    @Column(name = "officer_gmail")
+    private String officerGmail;
+
+    @Column(name = "officer_password")
+    private String officerPassword;
+
+    // Default Constructor
     public Officer() {
     }
 
-    public Officer(String officerName, String designation, String department, String email, String phoneNumber) {
+    // Constructor
+    public Officer(String officerName, String officerGmail, String officerPassword) {
         this.officerName = officerName;
-        this.designation = designation;
-        this.department = department;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
+        this.officerGmail = officerGmail;
+        this.officerPassword = officerPassword;
     }
 
     // Getters and Setters
@@ -46,35 +49,19 @@ public class Officer {
         this.officerName = officerName;
     }
 
-    public String getDesignation() {
-        return designation;
+    public String getOfficerGmail() {
+        return officerGmail;
     }
 
-    public void setDesignation(String designation) {
-        this.designation = designation;
+    public void setOfficerGmail(String officerGmail) {
+        this.officerGmail = officerGmail;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getOfficerPassword() {
+        return officerPassword;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setOfficerPassword(String officerPassword) {
+        this.officerPassword = officerPassword;
     }
 }
