@@ -9,6 +9,7 @@ const navItems = [
   { label: 'Expenses', icon: 'fa-arrow-trend-down', path: '/expenses', section: 'Finance' },
   { label: 'Budget', icon: 'fa-wallet', path: '/budget', section: 'Finance' },
   { label: 'Goals', icon: 'fa-bullseye', path: '/goals', section: 'Planning' },
+  { label: 'AI Assistant', icon: 'fa-robot', path: '/ai', section: 'Tools' }
 ];
 
 const Sidebar = () => {

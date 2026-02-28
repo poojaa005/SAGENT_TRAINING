@@ -9,6 +9,7 @@ import Income from './pages/income/Income';
 import Expense from './pages/expense/Expense';
 import Budget from './pages/budget/Budget';
 import Goals from './pages/goals/Goals';
+import AI from './pages/ai/ai';
 
 const PrivateRoute = ({ children }) => {
   const { user } = useUser();
@@ -55,8 +56,14 @@ const AppRoutes = () => {
           <AppLayout><Goals /></AppLayout>
         </PrivateRoute>
       } />
+      <Route path="/ai" element={
+        <PrivateRoute>
+          <AppLayout><AI /></AppLayout>
+        </PrivateRoute>
+      } />
 
       <Route path="*" element={<Navigate to="/" replace />} />
+      
     </Routes>
   );
 };
