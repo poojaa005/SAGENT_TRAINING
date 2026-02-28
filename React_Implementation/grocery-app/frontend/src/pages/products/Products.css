@@ -1,0 +1,96 @@
+.products-page { padding-top: 72px; min-height: 100vh; }
+
+.products-hero {
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  padding: 60px 32px;
+  text-align: center;
+  color: white;
+}
+.products-hero h1 { font-family: 'Playfair Display', serif; font-size: 48px; margin-bottom: 10px; }
+.products-hero p { font-size: 16px; opacity: 0.8; }
+
+.products-container { max-width: 1280px; margin: 0 auto; padding: 40px 32px; }
+
+.products-toolbar { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border: 2px solid #e8e8e8;
+  border-radius: 50px;
+  padding: 10px 20px;
+  flex: 1;
+  min-width: 240px;
+  transition: border 0.2s;
+}
+.search-bar:focus-within { border-color: var(--green-light); }
+.search-bar input { border: none; font-size: 15px; flex: 1; background: transparent; color: var(--text-dark); }
+.clear-search { background: none; border: none; font-size: 16px; color: var(--text-light); padding: 0; }
+
+.sort-select {
+  padding: 10px 20px;
+  border: 2px solid #e8e8e8;
+  border-radius: 50px;
+  background: white;
+  font-size: 14px;
+  color: var(--text-dark);
+  transition: border 0.2s;
+}
+.sort-select:focus { border-color: var(--green-light); outline: none; }
+
+.category-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+.cat-tab {
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 2px solid #e8e8e8;
+  background: white;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-mid);
+  transition: all 0.2s;
+}
+.cat-tab:hover { border-color: var(--green-light); color: var(--green-mid); }
+.cat-tab.active { background: var(--green-mid); color: white; border-color: var(--green-mid); }
+
+.results-count { font-size: 14px; color: var(--text-light); margin-bottom: 20px; }
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.product-anim { animation: fadeUp 0.5s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.skeleton-card {
+  height: 340px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius);
+}
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+.empty-state { text-align: center; padding: 80px 20px; }
+.empty-icon { font-size: 64px; margin-bottom: 16px; }
+.empty-state h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--text-dark); margin-bottom: 8px; }
+.empty-state p { color: var(--text-light); margin-bottom: 20px; }
+.btn-reset {
+  padding: 10px 24px;
+  background: var(--green-mid);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-reset:hover { background: var(--green-dark); }
