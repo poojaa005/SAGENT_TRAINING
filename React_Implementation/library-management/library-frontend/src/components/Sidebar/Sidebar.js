@@ -9,7 +9,7 @@ const navItems = [
   { path: '/inventory', icon: 'IN', label: 'Inventory', roles: ['librarian'] },
   { path: '/borrow-requests', icon: 'BR', label: 'Borrow Requests', roles: ['librarian'] },
   { path: '/members', icon: 'MB', label: 'Members', roles: ['librarian'] },
-  { path: '/fines', icon: 'FN', label: 'Fines', roles: ['librarian'] },
+  { path: '/fines', icon: 'FN', label: 'Fines', roles: ['member', 'librarian'] },
   { path: '/notifications', icon: 'NT', label: 'Notifications', roles: ['member', 'librarian'] },
   { path: '/ai', icon: 'AI', label: 'AI Assistant', roles: ['member', 'librarian'] },
 ];

@@ -15,6 +15,16 @@ function normalizeUser(userData, roleOverride) {
   return normalized;
 }
 
+function resolveAuthToken(userData, explicitToken) {
+  return (
+    explicitToken ||
+    userData?.token ||
+    userData?.accessToken ||
+    userData?.jwt ||
+    userData?.jwtToken
+  );
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
@@ -28,7 +38,7 @@ export function AuthProvider({ children }) {
 
   const login = (userData, role, token) => {
     const normalizedUser = normalizeUser(userData, role);
-    setAuthToken(token);
+    setAuthToken(resolveAuthToken(userData, token));
     localStorage.setItem('lms_user', JSON.stringify(normalizedUser));
     setUser(normalizedUser);
   };

@@ -5,12 +5,16 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.library.entity.BorrowRequest;
 import com.example.library.entity.Fine;
 import com.example.library.repository.BorrowRequestRepository;
 import com.example.library.repository.FineRepository;
+import com.example.library.repository.PaymentRepository;
 
 @Service
 public class FineService {
@@ -20,6 +24,9 @@ public class FineService {
 
     @Autowired
     private BorrowRequestRepository borrowRequestRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     private final double FINE_PER_DAY = 10.0; // ₹10 per day
 
@@ -39,8 +46,8 @@ public class FineService {
 
         Fine fine = new Fine();
         fine.setBorrowRequest(request);
-        fine.setDue_date(dueDate);
-        fine.setReturn_date(returnDate);
+        fine.setDueDate(dueDate);
+        fine.setReturnDate(returnDate);
         fine.setAmount(amount);
 
         return fineRepository.save(fine);
@@ -52,7 +59,17 @@ public class FineService {
     }
 
     // Delete Fine
+    @Transactional
     public void deleteFine(Long id) {
-        fineRepository.deleteById(id);
+        Fine fine = fineRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Fine not found"));
+
+        // Payment rows reference fine_id. Delete them first to avoid FK constraint failures.
+        var linkedPayments = paymentRepository.findByFine_FineId(id);
+        if (!linkedPayments.isEmpty()) {
+            paymentRepository.deleteAll(linkedPayments);
+        }
+
+        fineRepository.delete(fine);
     }
 }

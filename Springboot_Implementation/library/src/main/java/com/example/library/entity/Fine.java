@@ -1,7 +1,6 @@
 package com.example.library.entity;
 
 import java.time.LocalDate;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -10,56 +9,57 @@ public class Fine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fine_id;
+    @Column(name = "fine_id")
+    private Long fineId;
 
-    private LocalDate due_date;
+    @Column(name = "due_date")
+    private LocalDate dueDate;
 
-    private LocalDate return_date;
+    @Column(name = "return_date")
+    private LocalDate returnDate;
 
     private Double amount;
 
-    // One Fine -> One BorrowRequest
     @OneToOne
     @JoinColumn(name = "request_id", nullable = false)
     private BorrowRequest borrowRequest;
 
-    // Constructors
-    public Fine() {
-    }
+    // Constructor
+    public Fine() {}
 
-    public Fine(Long fine_id, LocalDate due_date, LocalDate return_date,
+    public Fine(Long fineId, LocalDate dueDate, LocalDate returnDate,
                 Double amount, BorrowRequest borrowRequest) {
-        this.fine_id = fine_id;
-        this.due_date = due_date;
-        this.return_date = return_date;
+        this.fineId = fineId;
+        this.dueDate = dueDate;
+        this.returnDate = returnDate;
         this.amount = amount;
         this.borrowRequest = borrowRequest;
     }
 
-    // Getters and Setters
+    // Getters & Setters
 
-    public Long getFine_id() {
-        return fine_id;
+    public Long getFineId() {
+        return fineId;
     }
 
-    public void setFine_id(Long fine_id) {
-        this.fine_id = fine_id;
+    public void setFineId(Long fineId) {
+        this.fineId = fineId;
     }
 
-    public LocalDate getDue_date() {
-        return due_date;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
 
-    public void setDue_date(LocalDate due_date) {
-        this.due_date = due_date;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public LocalDate getReturn_date() {
-        return return_date;
+    public LocalDate getReturnDate() {
+        return returnDate;
     }
 
-    public void setReturn_date(LocalDate return_date) {
-        this.return_date = return_date;
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
     }
 
     public Double getAmount() {

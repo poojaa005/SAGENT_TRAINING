@@ -30,14 +30,23 @@ function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const toArray = (result) => (
+      result.status === 'fulfilled' && Array.isArray(result.value) ? result.value : []
+    );
+
     const fetchAll = async () => {
       try {
-        const [books, requests, fines, members] = await Promise.all([
+        const [booksResult, requestsResult, finesResult, membersResult] = await Promise.allSettled([
           bookService.getAll(),
           borrowService.getAll(),
           fineService.getAll(),
           isLibrarian ? memberService.getAll() : Promise.resolve([]),
         ]);
+
+        const books = toArray(booksResult);
+        const requests = toArray(requestsResult);
+        const fines = toArray(finesResult);
+        const members = toArray(membersResult);
 
         const memberId = user?.memberId;
         const userRequests = isLibrarian
@@ -61,7 +70,8 @@ function Home() {
         });
         setRecentRequests(userRequests.slice(-5).reverse());
       } catch {
-        // handle gracefully
+        setStats({ books: 0, members: isLibrarian ? 0 : 1, requests: 0, fines: 0 });
+        setRecentRequests([]);
       } finally {
         setLoading(false);
       }
@@ -139,11 +149,14 @@ function Home() {
               <div className="quick-actions-grid">
                 {[
                   { to: '/books', icon: '🔍', label: 'Search Books', desc: 'Browse the catalog' },
-                  { to: '/borrow-requests', icon: '📖', label: 'Borrow a Book', desc: 'Request a book' },
+                  ...(isLibrarian
+                    ? [{ to: '/borrow-requests', icon: '📖', label: 'Borrow Requests', desc: 'Review requests' }]
+                    : [{ to: '/books', icon: '📖', label: 'Borrow a Book', desc: 'Request a book' }]),
+                  { to: '/fines', icon: '💰', label: 'Fines', desc: isLibrarian ? 'Manage fines' : 'View and pay fines' },
                   { to: '/notifications', icon: '🔔', label: 'Notifications', desc: 'View reminders' },
-                  { to: '/inventory', icon: '🗃', label: 'Inventory', desc: 'Manage catalog' },
+                  ...(isLibrarian ? [{ to: '/inventory', icon: '🗃', label: 'Inventory', desc: 'Manage catalog' }] : []),
                 ].map(item => (
-                  <Link key={item.to} to={item.to} className="quick-action-card">
+                  <Link key={`${item.to}-${item.label}`} to={item.to} className="quick-action-card">
                     <span className="quick-action-card__icon">{item.icon}</span>
                     <div>
                       <div className="quick-action-card__label">{item.label}</div>

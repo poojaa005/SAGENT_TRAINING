@@ -23,7 +23,11 @@ async function callGemini(prompt) {
 
   if (!response.ok) {
     const err = await response.json();
-    throw new Error(err.error?.message || `Gemini API error while calling ${MODEL}.`);
+    const message = err.error?.message || `Gemini API error while calling ${MODEL}.`;
+    if (message.toLowerCase().includes('reported as leaked')) {
+      throw new Error('Gemini API key is blocked (reported leaked). Create a new key, update REACT_APP_GEMINI_API_KEY in .env, then restart the frontend.');
+    }
+    throw new Error(message);
   }
 
   const data = await response.json();

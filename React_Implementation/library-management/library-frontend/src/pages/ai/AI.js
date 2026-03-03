@@ -3,6 +3,7 @@ import { bookService } from '../../services/bookService';
 import { memberService } from '../../services/memberService';
 import { fineService } from '../../services/fineService';
 import { notificationService } from '../../services/notificationService';
+import { useAuth } from '../../context/AuthContext';
 import {
   getBookRecommendations,
   smartBookSearch,
@@ -329,6 +330,7 @@ function SummaryTab({ books }) {
 
 // ── Main AI Page ─────────────────────────────────────────────
 function AI() {
+  const { isLibrarian } = useAuth();
   const [activeTab, setActiveTab] = useState('chatbot');
   const [books, setBooks] = useState([]);
   const [members, setMembers] = useState([]);
@@ -336,10 +338,22 @@ function AI() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([bookService.getAll(), memberService.getAll(), fineService.getAll()])
-      .then(([b, m, f]) => { setBooks(b); setMembers(m); setFines(f); })
+    const toArray = (result) => (
+      result.status === 'fulfilled' && Array.isArray(result.value) ? result.value : []
+    );
+
+    Promise.allSettled([
+      bookService.getAll(),
+      isLibrarian ? memberService.getAll() : Promise.resolve([]),
+      isLibrarian ? fineService.getAll() : Promise.resolve([]),
+    ])
+      .then(([booksResult, membersResult, finesResult]) => {
+        setBooks(toArray(booksResult));
+        setMembers(toArray(membersResult));
+        setFines(toArray(finesResult));
+      })
       .finally(() => setLoading(false));
-  }, []);
+  }, [isLibrarian]);
 
   return (
     <div className="ai-page fade-in">

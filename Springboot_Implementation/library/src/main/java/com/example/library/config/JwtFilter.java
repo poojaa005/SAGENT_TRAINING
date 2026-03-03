@@ -26,30 +26,51 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Skip filter for login route
-        String path = request.getServletPath();
-        if (path.equals("/api/auth/login")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        System.out.println("🔵 JwtFilter triggered for: " + request.getRequestURI());
 
         String authHeader = request.getHeader("Authorization");
 
+        System.out.println("Authorization Header: " + authHeader);
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
             String token = authHeader.substring(7);
 
-            if (jwtUtil.validateToken(token)) {
-                String email = jwtUtil.getEmailFromToken(token);
-                String role  = jwtUtil.getRoleFromToken(token);
+            try {
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                email,
-                                null,
-                                List.of(new SimpleGrantedAuthority("ROLE_" + role))
-                        );
+                if (jwtUtil.validateToken(token)) {
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    String email = jwtUtil.getEmailFromToken(token);
+                    String role  = jwtUtil.getRoleFromToken(token);
+
+                    System.out.println("Token valid");
+                    System.out.println("Email: " + email);
+                    System.out.println("Role from token: " + role);
+
+                    role = role.toUpperCase();
+
+                    if (!role.startsWith("ROLE_")) {
+                        role = "ROLE_" + role;
+                    }
+
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    email,
+                                    null,
+                                    List.of(new SimpleGrantedAuthority(role))
+                            );
+
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    System.out.println("✅ Authentication set");
+
+                } else {
+                    System.out.println("❌ Token validation failed");
+                }
+
+            } catch (Exception e) {
+                System.out.println("❌ Exception inside JWT filter");
+                e.printStackTrace();
             }
         }
 
