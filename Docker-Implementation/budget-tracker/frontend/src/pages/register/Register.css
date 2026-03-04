@@ -1,0 +1,10 @@
+/* Inherits from Login.css — just extend */
+.auth-page.register {
+  background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #7c3aed 100%);
+}
+
+.password-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 5px;
+}

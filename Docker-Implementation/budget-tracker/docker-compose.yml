@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: budget-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: budgetdb
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    container_name: budget-backend
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/budget_tracker
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Pass@3110
+
+  frontend:
+    build: ./frontend
+    container_name: budget-frontend
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
