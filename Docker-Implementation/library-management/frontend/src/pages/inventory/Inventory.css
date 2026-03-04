@@ -1,0 +1,20 @@
+@import '../../styles/shared.css';
+@import '../../components/StatusBadge/StatusBadge.css';
+@import '../../components/BookCard/BookCard.css';
+
+.inventory-page {}
+
+.inventory-title {
+  color: var(--text-primary);
+  font-size: 13.5px;
+}
+
+.inventory-category {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--bg-elevated);
+  color: var(--accent-gold);
+  font-size: 12px;
+  font-weight: 500;
+}

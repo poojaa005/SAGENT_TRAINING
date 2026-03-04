@@ -1,0 +1,24 @@
+@import '../../styles/shared.css';
+
+.fines-page {}
+
+.fine-amount {
+  font-family: var(--font-display);
+  color: var(--accent-red);
+  font-weight: 600;
+}
+
+.fine-days {
+  color: var(--accent-amber);
+  font-size: 13px;
+}
+
+.fine-paid-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(40, 167, 69, 0.15);
+  color: #1f8a3d;
+  font-size: 12px;
+  font-weight: 600;
+}
