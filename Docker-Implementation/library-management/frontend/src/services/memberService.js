@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/members';
+const BASE_URL = '/members';
 
 export const memberService = {
   getAll: () => axios.get(BASE_URL).then(r => r.data),

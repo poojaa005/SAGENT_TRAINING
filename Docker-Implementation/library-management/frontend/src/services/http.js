@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const TOKEN_KEY = 'lms_token';
 
+axios.defaults.baseURL = 'http://localhost:8080';
+
 export function getAuthToken() {
   return localStorage.getItem(TOKEN_KEY);
 }
@@ -22,4 +24,3 @@ axios.interceptors.request.use((config) => {
   }
   return config;
 });
-

@@ -1,40 +1,45 @@
-version: '3.8'
+version: "3.8"
 
 services:
 
   mysql:
     image: mysql:8
-    container_name: library_mysql
-    restart: always
+    container_name: library-mysql
     environment:
       MYSQL_ROOT_PASSWORD: Pass@3110
-      MYSQL_DATABASE: librarydb
+      MYSQL_DATABASE: library_db
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pPass@3110"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   backend:
     build: ./backend
-    container_name: library_backend
-    restart: always
+    container_name: library-backend
+    depends_on:
+      mysql:
+        condition: service_healthy
     ports:
       - "8080:8080"
-    depends_on:
-      - mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/librarydb
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/library_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Pass@3110
+    restart: always
 
   frontend:
     build: ./frontend
-    container_name: library_frontend
-    restart: always
-    ports:
-      - "3000:3000"
+    container_name: library-frontend
     depends_on:
       - backend
+    ports:
+      - "3000:3000"
+    restart: always
 
 volumes:
   mysql_data:

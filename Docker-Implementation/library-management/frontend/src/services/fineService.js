@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/fine';
+const BASE_URL = '/api/fine';
 
 export const fineService = {
   getAll: () => axios.get(BASE_URL).then(r => r.data),

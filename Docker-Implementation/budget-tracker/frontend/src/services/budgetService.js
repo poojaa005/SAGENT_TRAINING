@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080';
 const api = axios.create({ baseURL: BASE_URL });
 
 export const budgetService = {
@@ -11,3 +11,4 @@ export const budgetService = {
   updateBudget: (id, data) => api.put(`/budgets/${id}`, data),
   deleteBudget: (id) => api.delete(`/budgets/${id}`),
 };
+

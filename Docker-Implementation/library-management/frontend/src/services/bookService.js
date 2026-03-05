@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/books';
+const BASE_URL = '/api/books';
 
 export const bookService = {
   getAll: () => axios.get(BASE_URL).then(r => r.data),

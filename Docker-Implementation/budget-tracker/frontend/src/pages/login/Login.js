@@ -24,8 +24,10 @@ const Login = () => {
     try {
       const res = await userService.getAllUsers();
       const users = res.data;
+      const inputEmail = form.email.trim().toLowerCase();
+      const inputPassword = form.password.trim();
       const found = users.find(
-        (u) => u.email === form.email && u.password === form.password
+        (u) => u.email?.toLowerCase() === inputEmail && u.password === inputPassword
       );
 
       if (found) {

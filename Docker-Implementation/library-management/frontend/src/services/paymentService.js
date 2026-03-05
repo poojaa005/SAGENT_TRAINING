@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/payment';
+const BASE_URL = '/api/payment';
 
 export const paymentService = {
   getAll: () => axios.get(BASE_URL).then(r => r.data),

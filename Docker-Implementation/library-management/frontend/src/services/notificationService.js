@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/notifications';
+const BASE_URL = '/api/notifications';
 
 async function requestWithFallback(requests) {
   let lastError;

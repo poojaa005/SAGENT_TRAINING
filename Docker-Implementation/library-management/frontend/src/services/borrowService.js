@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/borrow';
+const BASE_URL = '/api/borrow';
 
 export const borrowService = {
   getAll: () => axios.get(BASE_URL).then(r => r.data),

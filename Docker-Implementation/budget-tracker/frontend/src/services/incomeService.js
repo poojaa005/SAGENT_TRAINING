@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080';
 const api = axios.create({ baseURL: BASE_URL });
 
 export const incomeService = {
@@ -11,3 +11,4 @@ export const incomeService = {
   updateIncome: (id, data) => api.put(`/income/${id}`, data),
   deleteIncome: (id) => api.delete(`/income/${id}`),
 };
+
