@@ -1,0 +1,24 @@
+.healthrecord-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  width: 300px;
+  transition: 0.3s;
+}
+
+.healthrecord-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.healthrecord-card h4 {
+  color: #4caf50;
+  margin-bottom: 10px;
+}
+
+.healthrecord-card p {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}

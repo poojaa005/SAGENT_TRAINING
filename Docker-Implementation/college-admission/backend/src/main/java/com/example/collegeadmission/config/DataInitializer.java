@@ -2,10 +2,8 @@ package com.example.collegeadmission.config;
 
 import com.example.collegeadmission.entity.Course;
 import com.example.collegeadmission.entity.Officer;
-import com.example.collegeadmission.entity.Student;
 import com.example.collegeadmission.repository.CourseRepository;
 import com.example.collegeadmission.repository.OfficerRepository;
-import com.example.collegeadmission.repository.StudentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,16 +15,13 @@ public class DataInitializer implements CommandLineRunner {
 
     private final OfficerRepository officerRepository;
     private final CourseRepository courseRepository;
-    private final StudentRepository studentRepository;
 
     public DataInitializer(
             OfficerRepository officerRepository,
-            CourseRepository courseRepository,
-            StudentRepository studentRepository
+            CourseRepository courseRepository
     ) {
         this.officerRepository = officerRepository;
         this.courseRepository = courseRepository;
-        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -34,7 +29,6 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         seedDefaultOfficer();
         seedDefaultCourses();
-        seedDemoStudent();
     }
 
     private void seedDefaultOfficer() {
@@ -60,18 +54,6 @@ public class DataInitializer implements CommandLineRunner {
                 createCourse("B.Sc Mathematics", "Science", "3 Years"),
                 createCourse("BA English", "Arts", "3 Years")
         ));
-    }
-
-    private void seedDemoStudent() {
-        if (studentRepository.findByEmail("test@test.com").isPresent()) {
-            return;
-        }
-
-        Student student = new Student();
-        student.setName("Test Student");
-        student.setEmail("test@test.com");
-        student.setPassword("test123");
-        studentRepository.save(student);
     }
 
     private Course createCourse(String courseName, String dept, String duration) {

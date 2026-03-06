@@ -1,0 +1,97 @@
+/* src/pages/Login/Login.css */
+
+/* General page layout */
+.login-page {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+/* Container */
+.login-container {
+  width: 380px;
+  margin: 80px auto;
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* Heading */
+.login-container h2 {
+  color: #2e7d32;
+  margin-bottom: 25px;
+}
+
+/* Role Tabs */
+.role-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.role-tabs button {
+  padding: 10px 25px;
+  border: none;
+  background-color: #e0e0e0;
+  color: #555;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  font-weight: bold;
+  margin: 0 5px;
+  transition: 0.3s;
+}
+
+.role-tabs button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.role-tabs button:hover {
+  background-color: #81c784;
+  color: white;
+}
+
+/* Form */
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-form button:hover {
+  background-color: #388e3c;
+}
+
+/* Register Text */
+.register-text {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.register-text span {
+  color: #4caf50;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.register-text span:hover {
+  text-decoration: underline;
+}
